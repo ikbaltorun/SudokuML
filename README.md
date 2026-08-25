@@ -17,7 +17,7 @@ Bu proje; derin öğrenme ile katı mantıksal kuralları birleştiren, yüksek 
 ---
 
 ## 🏗️ Proje Mimarisi
-
+```text
 SudokuML/
 │
 ├── data/
@@ -35,7 +35,7 @@ SudokuML/
 │
 ├── app.py                     # Etkileşimli Streamlit web uygulaması
 └── requirements.txt           # Proje bağımlılıkları
-
+```
 ---
 
 ## 🛠️ Kullanılan Teknolojiler ve Kütüphaneler
