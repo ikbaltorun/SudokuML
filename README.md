@@ -79,3 +79,8 @@ SudokuML/
 * **Ortalama Test Başarısı:** %100.00 (100 rastgele test vakası üzerinden)
 * **İşlem Hızı:** Bulmaca başına milisaniye seviyesi (optimize edilmiş tensör işleme mimarisi ile yüksek hızlı çıkarım)
 * **Ekstrem Bulmaca Yönetimi:** *AI Escargot* ve *17-Clue* gibi dünya klasmanındaki en zorlu bulmacaları dahi performans darboğazı yaşamadan başarıyla çözer.
+
+---
+## 👩‍💻 Geliştirici
+*İkbal Torun*
+  
