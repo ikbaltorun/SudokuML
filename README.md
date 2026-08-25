@@ -50,7 +50,7 @@ SudokuML/
 
 1. **Repoyu klonlayın:**
    ```bash
-   git clone [https://github.com/ikbaltorun/SudokuML.git](https://github.com/ikbaltorun/SudokuML.git)
+   git clone https://github.com/ikbaltorun/SudokuML.git
    cd SudokuML
    ```
 2. **Bağımlılıkları yükleyin:**
@@ -67,10 +67,10 @@ SudokuML/
    python test_solver.py
    ```
 5. **Ekstrem stres testini çalıştırın (AI Escargot ve 17-İpuculu Minimal):**
-  ```bash
-  cd solver
-  python extreme_test.py
-  ```
+    ```bash
+    cd solver
+    python extreme_test.py
+    ```
 
 ---
 
