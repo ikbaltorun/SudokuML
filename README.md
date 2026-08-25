@@ -2,7 +2,7 @@
 <p align="center">
   <img src="sudoku2.gif" width="250">
 </p>
-Bu proje; derin öğrenme ile katı mantıksal kuralları birleştiren, yüksek performanslı hibrit bir Sudoku çözücüdür. Geleneksel arama algoritmaları karmaşık bulmacalarda arama uzayı patlamasıyla (search space explosion) karşılaşırken, saf yapay zeka modelleri temel oyun kurallarını ihlal edebilir. Bu proje, hamle tahmini için **Evrişimli Sinir Ağlarını (CNN)** ve kesin doğruluk garantisi için **Top-K Güvenilirlik Backtracking (Geri İzleme)** algoritmasını bir araya getirerek bu ikilemi çözer.
+Bu proje; derin öğrenme ile katı mantıksal kuralları birleştiren, yüksek performanslı hibrit bir Sudoku çözücüdür. Geleneksel arama algoritmaları karmaşık bulmacalarda arama uzayı patlamasıyla (search space explosion) karşılaşırken, saf yapay zeka modelleri temel oyun kurallarını ihlal edebilir. Bu proje, hamle tahmini için Evrişimli Sinir Ağlarını (CNN) ve kesin doğruluk garantisi için Top-K Güvenilirlik Backtracking (Geri İzleme) algoritmasını bir araya getirerek bu ikilemi çözer.
 
 ---
 
