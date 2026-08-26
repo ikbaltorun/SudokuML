@@ -57,20 +57,35 @@ SudokuML/
    ```bash
    pip install -r requirements.txt
    ```
-3. **İnteraktif web uygulamasını çalıştırın:**
+3. **Veri setini oluşturun:**
    ```bash
-   streamlit run app.py
+   cd data
+   python generate_dataset.py
+   cd ..
    ```
-4. **Otomatik kıyaslama ve test paketini çalıştırın (100 Bulmaca):**
+4. **Modeli eğitin:**
+   ```bash
+   cd model
+   python train.py
+   cd ..
+   ```
+5. **İnteraktif web uygulamasını çalıştırın:**
+    ```bash
+    streamlit run app.py
+    ```
+6. **Tekli bulmaca çözücüyü çalıştırın (Adım adım log takibi ile):**
    ```bash
    cd solver
+   python ml_solver.py
+   ```
+7. **Otomatik kıyaslama ve test paketini çalıştırın (100 Bulmaca):**
+   ```bash
    python test_solver.py
    ```
-5. **Ekstrem stres testini çalıştırın (AI Escargot ve 17-İpuculu Minimal):**
-    ```bash
-    cd solver
-    python extreme_test.py
-    ```
+8. **Ekstrem stres testini çalıştırın (AI Escargot ve 17-İpuculu Minimal):**
+   ```bash
+   python extreme_test.py
+   ```
 
 ---
 
