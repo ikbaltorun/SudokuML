@@ -1,17 +1,14 @@
 import numpy as np
 import tensorflow as tf
 import random
+import time  # Süre ölçümü için kütüphanemizi ekledik
 
-# =========================================================
 # MODELİ YÜKLE
-# =========================================================
-MODEL_PATH = "../model/sudoku_ml_model.keras" 
+MODEL_PATH = "../model/sudoku_ml_model.keras"
 model = tf.keras.models.load_model(MODEL_PATH)
 
 
-# =========================================================
 # SUDOKU KONTROL & OLUŞTURMA
-# =========================================================
 def is_valid(board, row, col, num):
     if num in board[row]: return False
     if num in board[:, col]: return False
@@ -49,14 +46,11 @@ def create_puzzle(solution, empty_cells=45):
     return puzzle
 
 
-# =========================================================
-# YENİ CNN TAHMİN MANTIĞI
-# =========================================================
+# CNN TAHMİN MANTIĞI
 def get_candidates(board, row, col):
     return [num for num in range(1, 10) if is_valid(board, row, col, num)]
 
 def predict_board(board):
-    # Yeni One-Hot CNN yapımız
     encoded = np.eye(10)[board].astype(np.float32)
     encoded = encoded.reshape(1, 9, 9, 10)
     probabilities = model.predict(encoded, verbose=0)[0]
@@ -83,9 +77,7 @@ def get_best_cell_moves(board, probabilities):
     return best_row, best_col, best_moves
 
 
-# =========================================================
 # ML + BACKTRACKING ÇÖZÜCÜ
-# =========================================================
 def solve_with_ml(board):
     steps = 0
 
@@ -95,7 +87,6 @@ def solve_with_ml(board):
 
         if not np.any(board == 0): return True
 
-        # Modeli bir kez çağır
         probabilities = predict_board(board)
         row, col, moves = get_best_cell_moves(board, probabilities)
 
@@ -112,29 +103,26 @@ def solve_with_ml(board):
     return success, steps
 
 
-# =========================================================
-# 100 SUDOKU TESTİ (DÜZELTİLMİŞ NOTLANDIRMA)
-# =========================================================
+# 100 SUDOKU TESTİ & PERFORMANS ÖLÇÜMÜ
 if __name__ == "__main__":
     TOTAL_TESTS = 100
     successful = 0
     failed = 0
+    total_steps = 0
 
-    print("\n========================================")
-    print("ML SUDOKU TESTİ BAŞLIYOR (CNN MİMARİSİ)")
-    print("========================================\n")
+    print("ML SUDOKU BENCHMARK TESTİ BAŞLIYOR")
+
+    # Tüm testin süresini başlat
+    start_time = time.time()
 
     for test_number in range(1, TOTAL_TESTS + 1):
         solution = generate_solution()
         puzzle = create_puzzle(solution, empty_cells=45)
         board = puzzle.copy()
 
-        # Algoritma çözümü dener
         success, steps = solve_with_ml(board)
-        
-        # YENİ KONTROL MANTIĞI:
-        # Eğer 'success' True döndüyse, algoritma zaten kuralları ihlal etmeyen 
-        # (is_valid) bir çözüm bulmuş ve tahtada hiç '0' kalmamış demektir.
+        total_steps += steps
+
         if success:
             successful += 1
             print(f"Test {test_number:3d} → ✅ BAŞARILI ({steps} adım)")
@@ -142,13 +130,29 @@ if __name__ == "__main__":
             failed += 1
             print(f"Test {test_number:3d} → ❌ BAŞARISIZ")
 
+    # Süreyi durdur
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    
+    # Saniyeyi Dakika ve Saniyeye Çevirme Matematik Kısmı
+    minutes = int(elapsed_time // 60)
+    seconds = elapsed_time % 60
+
+    avg_time_per_puzzle = (elapsed_time / TOTAL_TESTS) * 1000  # Milisaniye cinsinden kalabilir
+
     accuracy = (successful / TOTAL_TESTS) * 100
 
-    print("\n========================================")
-    print("TEST SONUCU")
-    print("========================================")
-    print(f"Toplam test : {TOTAL_TESTS}")
-    print(f"Başarılı    : {successful}")
-    print(f"Başarısız   : {failed}")
-    print(f"Başarı      : %{accuracy:.2f}")
+    print("PERFORMANS VE TEST SONUÇLARI")
+    print(f"Toplam test     : {TOTAL_TESTS}")
+    print(f"Başarılı        : {successful}")
+    print(f"Başarısız       : {failed}")
+    print(f"Başarı Oranı    : %{accuracy:.2f}")
+    
+    if minutes > 0:
+        print(f"Toplam Süre     : {minutes} dakika {seconds:.2f} saniye")
+    else:
+        print(f"Toplam Süre     : {seconds:.2f} saniye")
+        
+    print(f"Ortalama Süre   : {avg_time_per_puzzle:.2f} ms / bulmaca")
+    print(f"Ortalama Adım   : {total_steps / TOTAL_TESTS:.1f} adım")
     print("========================================")
