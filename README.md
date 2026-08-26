@@ -74,7 +74,7 @@ SudokuML/
 
 ---
 
-## 📈 Geliştirme ve Optimizasyon Süreci (Mühendislik Yolculuğu)
+## 📈 Geliştirme ve Optimizasyon Süreci
 Bu projeyi geliştirirken modelin başlarda düşük doğruluk oranlarıyla takılması ve bunu aşamalı olarak nasıl çözdüğümüz projenin en değerli aşaması oldu:
 
 1. **İlk Durum ve Düşük Başarı (%65):**
