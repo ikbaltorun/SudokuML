@@ -92,14 +92,21 @@ loss ve val_loss değerlerinin birbirine çok yakın olması, modelin ezber yapm
 Model tek başına her zaman %100 bilmese de, arkada çalışan Top-K Sezgisel Backtracking motoru sayesinde en yüksek olasılıklı hamleler akıllıca denenir. Bu hibrit yapı sayesinde model, 100 zorlu bulmacanın tamamını sıfır hatayla çözer.
 
 ## 📊 Canlı Test ve Performans Çıktıları
+
 Projenin toplu benchmark testlerinde (test_solver.py) elde ettiği gerçek çalışma karnesi:
 
 **Toplam Test Edilen Bulmaca:** 100 Adet (Zorluk seviyesi: 45 boş hücre)
+
 **Başarılı Çözüm:** 100
+
 **Başarısız Çözüm:** 0
+
 **Gerçek Sınav Başarısı (Test Accuracy):** %68.45 (Modelin tek hamlelik ham tahmin başarısı)
+
 **Hibrit Sistem Kesin Başarısı:** %100.00 (Backtracking entegrasyonu ile sıfır hata)
+
 **Ortalama Çözüm Adımı:** ~100 adım / bulmaca
+
 **Toplam Test Süresi:** 8 dakika 15 saniye (Bulmaca başına ~4.9 saniye)
 
 ---
