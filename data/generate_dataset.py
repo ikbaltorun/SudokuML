@@ -2,9 +2,9 @@ import numpy as np
 import random
 
 # AYARLAR (Veri seti CNN için büyütüldü)
-TOTAL_SUDOKUS = 100000 
-TRAIN_SUDOKUS = 80000 # 80000 Sudoku eğitim verisi için
-TEST_SUDOKUS = 20000 # 20000 Sudoku test verisi için
+TOTAL_SUDOKUS = 200000 
+TRAIN_SUDOKUS = 160000 # 160000 Sudoku eğitim verisi için
+TEST_SUDOKUS = 40000 # 40000 Sudoku test verisi için
 OUTPUT_PATH = "sudoku_ml_dataset.npz"
 
 def is_valid(board, row, col, num): #sudoku olup olmadığı kontrolü
@@ -68,13 +68,13 @@ def create_dataset(number_of_sudokus): #verinin işlenebilmesi için dönüştü
 
 print("TRAIN DATASET") 
 X_train, y_train = create_dataset(TRAIN_SUDOKUS)
-#80k x train eğitim için boşluklu sudoku
-#580k y train cevap anahtarı
+#160k x train eğitim için boşluklu sudoku
+#160k y train cevap anahtarı
 
 print("TEST DATASET") 
 X_test, y_test = create_dataset(TEST_SUDOKUS)
-#20k x test modelin görmediği boşluklu sudoku
-#20k y test doğru çözümler
+#40k x test modelin görmediği boşluklu sudoku
+#40k y test doğru çözümler
 
 np.savez_compressed(OUTPUT_PATH, X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test) 
 
