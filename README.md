@@ -8,11 +8,11 @@ Bu proje; derin öğrenme ile katı mantıksal kuralları birleştiren, yüksek 
 
 ## 🚀 Öne Çıkan Özellikler
 
-* **Gelişmiş Veri Boru Hattı ve One-Hot Encoding:** Tahta durumlarını kategorik çok kanallı tensörlere (`9x9x10`) dönüştürerek sayısal yanlılığı ortadan kaldırır (modelin 8 sayısını 4'ten "matematiksel olarak büyük" sanmasını engeller).
-* **Derin Öğrenme Mimarisi (CNN):** Satırlar, sütunlar ve 3x3'lük alt ızgaralar arasındaki küresel tahta geometrisini yakalamak için uzaysal dolgu (`same`) ve toplu normalleştirme (`batch normalization`) içeren çok katmanlı `Conv2D` filtreleri kullanır.
-* **Top-K Sezgisel Backtracking:** Körlemesine tahmin yapmak veya rastgele aramak yerine, çözücü CNN'in olasılık dağılımını sorgular, aday hamleleri güven skoruna göre sıralar ve çıkmaz sokaklarda zarifçe geri izleme yapar.
-* **Hibrit %100 Otomatik Test Başarısı:** Modelin tek hamlelik ham tahmin başarısı optimize edilmişken, arkadaki hibrit backtracking mantığı sayesinde standart ve ekstrem veri setlerinde **%100 kusursuz çözüm garantisi** sunar.
-* **Etkileşimli Web Arayüzü:** Gerçek zamanlı görselleştirme için Streamlit ile geliştirilmiş, tam duyarlı (responsive) modern bir karanlık mod (dark-mode) arayüzü içerir.
+- 🧠 **Gelişmiş Veri Boru Hattı ve One-Hot Encoding:** Tahta durumlarını kategorik çok kanallı tensörlere (9x9x10) dönüştürerek sayısal yanlılığı ortadan kaldırır (modelin 8 sayısını 4'ten matematiksel olarak büyük sanmasını engeller).
+- 🏗️ **Derin Öğrenme Mimarisi (CNN):** Satırlar, sütunlar ve 3x3'lük alt ızgaralar arasındaki küresel tahta geometrisini yakalamak için uzaysal dolgu (*same*) ve toplu normalleştirme (*batch normalization*) içeren çok katmanlı Conv2D filtreleri kullanır.
+- ⚡ **Top-K Sezgisel Backtracking:** Körlemesine tahmin yapmak veya rastgele aramak yerine, çözücü CNN'in olasılık dağılımını sorgular, aday hamleleri güven skoruna göre sıralar ve çıkmaz sokaklarda zarifçe geri izleme yapar.
+- 🛡️ **Hibrit %100 Otomatik Test Başarısı:** Modelin tek hamlelik ham tahmin başarısı optimize edilmişken, arkadaki hibrit backtracking mantığı sayesinde standart ve ekstrem veri setlerinde %100 kusursuz çözüm garantisi sunar.
+- 🎨 **Etkileşimli Web Arayüzü:** Gerçek zamanlı görselleştirme için Streamlit ile geliştirilmiş, tam duyarlı (responsive) modern bir karanlık mod (dark-mode) arayüzü içerir.
 
 ---
 
@@ -21,7 +21,7 @@ Bu proje; derin öğrenme ile katı mantıksal kuralları birleştiren, yüksek 
 SudokuML/
 │
 ├── data/
-│   ├── generate_dataset.py    # 100.000+ sentetik Sudoku bulmacası ve çözümü üretir
+│   ├── generate_dataset.py    # 200.000+ sentetik Sudoku bulmacası ve çözümü üretir
 │   └── sudoku_ml_dataset.npz  # Sıkıştırılmış NumPy veri seti (Eğitim/Test ayrımı)
 │
 ├── model/
@@ -89,40 +89,31 @@ SudokuML/
 
 ---
 
-## 📈 Geliştirme ve Optimizasyon Süreci
-Bu projeyi geliştirirken modelin başlarda düşük doğruluk oranlarıyla takılması ve bunu aşamalı olarak nasıl çözdüğümüz projenin en değerli aşaması oldu:
+## 📈 İteratif Geliştirme ve Optimizasyon Süreci
 
-1. **İlk Durum ve Düşük Başarı (%65):**
+Bu projenin en değerli mühendislik aşaması, modelin başlarda yaşadığı tıkanıklıkları teşhis edip, 3 farklı fazda uyguladığımız mimari iyileştirmelerdir:
 
-İlk denemelerde daha küçük veri seti ve varsayılan ayarlarla başlandığında modelin doğruluğu %65 civarında takılıyor ve erken kesiliyordu.
-Çözüm / Müdahale: Veri seti boyutu 100.000+ bulmacaya çıkarıldı. EarlyStopping sabrı (patience) artırıldı, ReduceLROnPlateau ile öğrenme hızı dinamik olarak düşürüldü ve batch_size 32 olarak optimize edildi.
+### 🔴 Faz 1: İlk Prototip ve Darboğaz (< %65 Başarı)
+*   **Durum:** İlk denemelerde sığ bir ağ mimarisi (az katmanlı), küçük bir veri seti ve varsayılan hiperparametreler kullanıldı.
+*   **Sorun:** Modelin doğruluğu %65'in altında kalarak çok erken tıkanıyordu. Yapay zekanın hata payı yüksek olduğu için, arkada çalışan Backtracking algoritmasına devasa bir arama uzayı yükü kalıyor ve test süreleri çok uzuyordu.
 
-2. **Optimizasyon Sonrası Sınav Başarısı (%68.45):**
+### 🟡 Faz 2: Veri Boru Hattı İyileştirmesi (%68.45 Başarı)
+*   **Müdahale:** Modelin ezber (overfitting) yapmasını engellemek için veri seti **100.000+** bulmacaya çıkarıldı. Eğitimi stabilize etmek adına `Batch Size 32` olarak ayarlandı ve `ReduceLROnPlateau` (öğrenme hızını dinamik düşürme) ile `EarlyStopping` eklendi.
+*   **Sonuç:** Model 29. turda altın ağırlıklarına ulaşarak gerçek sınav başarısını (val_accuracy) **%68.45'e** çıkardı. Modelin bu yardımı sayesinde algoritma, 100 bulmacalık stres testini bulmaca başına ortalama 100 adımda ve toplam **8 dakika 15 saniyede** tamamladı.
 
-Yapılan iyileştirmelerle birlikte model EarlyStopping ile 29. turda en iyi ağırlıklarına (%19. epoch) ulaştı ve gerçek sınav başarısı (val_accuracy) %68.45 olarak tescillendi.
-loss ve val_loss değerlerinin birbirine çok yakın olması, modelin ezber yapmadığını (overfitting olmadığını) net bir şekilde kanıtladı.
-
-3. **Hibrit Mimari ile Kesin Çözüm (%100 Garanti):**
-
-Model tek başına her zaman %100 bilmese de, arkada çalışan Top-K Sezgisel Backtracking motoru sayesinde en yüksek olasılıklı hamleler akıllıca denenir. Bu hibrit yapı sayesinde model, 100 zorlu bulmacanın tamamını sıfır hatayla çözer.
+### 🟢 Faz 3: Mimari Derinlik ve Tam Optimizasyon (%76.25 Başarı)🚀
+*   **Müdahale:** Modelin hala tahtanın bütününü algılayamadığı (Receptive Field problemi) teşhis edildi. Gösterim alanını tüm tahtaya yaymak için ağ derinleştirilerek **CNN katman sayısı 4'ten 6'ya çıkarıldı**. Artan kapasiteyi beslemek için veri seti **200.000**'e yükseltildi ve eğitim süresi darboğazını aşmak için `Batch Size 128` yapıldı.
+*   **Sonuç:** Yapay zeka 28. epoch'ta **%76.25** ile rekor doğruluk oranına ulaştı. Tahmin gücündeki bu büyük sıçrama, algoritmanın deneme-yanılma yükünü inanılmaz derecede hafifletti.
 
 ## 📊 Canlı Test ve Performans Çıktıları
 
-Projenin toplu benchmark testlerinde (test_solver.py) elde ettiği gerçek çalışma karnesi:
-
-**Toplam Test Edilen Bulmaca:** 100 Adet (Zorluk seviyesi: 45 boş hücre)
-
-**Başarılı Çözüm:** 100
-
-**Başarısız Çözüm:** 0
-
-**Gerçek Sınav Başarısı (Test Accuracy):** %68.45 (Modelin tek hamlelik ham tahmin başarısı)
-
-**Hibrit Sistem Kesin Başarısı:** %100.00 (Backtracking entegrasyonu ile sıfır hata)
-
-**Ortalama Çözüm Adımı:** ~100 adım / bulmaca
-
-**Toplam Test Süresi:** 8 dakika 15 saniye (Bulmaca başına ~4.9 saniye)
+| Performans Metriği | Faz 1 (Prototip) | Faz 2 (İlk İyileştirme) | Faz 3 (Son Mimari) 🚀 |
+| :--- | :--- | :--- | :--- |
+| **Gerçek Sınav Başarısı (CNN)** | < %65.00 | %68.45 | **%76.25** |
+| **Hibrit Kesin Başarı (CNN + BT)** | %100.00 | %100.00 | **%100.00** |
+| **Ortalama Çözüm Adımı** | Çok Yüksek | ~100 adım / bulmaca | **~57.2 adım / bulmaca** 📉 |
+| **Toplam Test Süresi (100 Adet)** | Ölçülmedi | 8 dakika 15 saniye | **4 dakika 26 saniye** ⚡ |
+| **Ortalama Çözüm Süresi** | - | ~4.9 saniye / bulmaca | **~2.6 saniye / bulmaca** ⚡ |
 
 ---
 
