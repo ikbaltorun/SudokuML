@@ -113,7 +113,7 @@ Bu projenin en değerli mühendislik aşaması, modelin başlarda yaşadığı t
 | **Hibrit Kesin Başarı (CNN + BT)** | %100.00 | %100.00 | **%100.00** |
 | **Ortalama Çözüm Adımı** | Çok Yüksek | ~100 adım / bulmaca | **~57.2 adım / bulmaca** 📉 |
 | **Toplam Test Süresi (100 Adet)** | Ölçülmedi | 8 dakika 15 saniye | **4 dakika 26 saniye** ⚡ |
-| **Ortalama Çözüm Süresi** | - | ~4.9 saniye / bulmaca | **~2.6 saniye / bulmaca** ⚡ |
+| **Ortalama Çözüm Süresi** | Ölçülmedi | ~4.9 saniye / bulmaca | **~2.6 saniye / bulmaca** ⚡ |
 
 ---
 
